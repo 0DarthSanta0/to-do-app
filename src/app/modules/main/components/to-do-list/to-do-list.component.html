@@ -1,0 +1,15 @@
+<div class="content">
+    <app-spinner *ngIf="(isLoading$ | async); else table"
+                 strokeWidth="4"
+    ></app-spinner>
+
+    <ng-template #table>
+        <app-to-do-table
+                [tableData]="todos$| async"
+                [globalFilteredFields]="globalFilteredFields"
+                [columnNames]="columnNames"
+                [scrollHeight]="520"
+                (updated)="updateTable()"
+        ></app-to-do-table>
+    </ng-template>
+</div>

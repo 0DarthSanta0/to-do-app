@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { isDevMode, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,6 +10,7 @@ import { ToDoService } from "./shared/services/to-do.service";
 import { HttpClientModule } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,11 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
         HttpClientModule,
         AppRoutingModule,
         StoreModule.forRoot({main: mainReducers}),
-        EffectsModule.forRoot([MainEffects])
+        EffectsModule.forRoot([MainEffects]),
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+        })
     ],
     providers: [
         ToDoService,

@@ -1,0 +1,54 @@
+<div class="card">
+    <p-table #table
+             [value]="tableData"
+             [globalFilterFields]="globalFilteredFields"
+             [scrollable]="isScrollable"
+             [scrollHeight]="scrollHeight + 'px'"
+             [virtualRowHeight]="virtualRowHeight"
+    >
+        <ng-template pTemplate="caption" class="caption">
+            <p-button label="Reset" (click)="resetTableSettings()" class="button"></p-button>
+            <p-button label="Update" (click)="updateTable()" class="button"></p-button>
+            <p-dropdown class="select-status"
+                        [options]="dropdownValue"
+                        optionLabel="name"
+                        placeholder="Select a status"
+                        [(ngModel)]="selectedStatus"
+                        (onChange)="table.filter($event.value?.status, columnNamesKey[1], 'contains')"
+            ></p-dropdown>
+            <div class="search">
+                <div class="p-input-icon-left ml-auto">
+
+                    <input pInputText type="text" #search
+                           (input)="table.filter($any($event.target).value, columnNamesKey[0], 'contains')"
+                           [placeholder]="'search'"
+                           [(ngModel)]="searchValue"/>
+
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of columnNamesKey" [pSortableColumn]="col">
+                    {{columnNames[col] | titlecase}}
+                    <p-sortIcon [field]="col"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr
+                    class="data_row"
+            >
+                <td *ngFor="let col of columnNamesKey">
+                    {{data[col]}}
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="7">No data found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>
