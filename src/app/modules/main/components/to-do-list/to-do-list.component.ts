@@ -28,14 +28,14 @@ export class ToDoListComponent implements OnInit {
     }
 
     public updateTable() {
-        this.selectProjects()
+        this.selectTodos()
     }
 
     public ngOnInit(): void {
-        this.selectProjects();
+        this.selectTodos();
     }
 
-    private selectProjects(): void {
+    private selectTodos(): void {
         this.store.dispatch(getTodos());
         this.todos$ = this.store.pipe(
             select(todosListSelector),
